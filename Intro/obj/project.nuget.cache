@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "GeLA/hnPqW40yQidS8kOJV6NHclnvcVs+2FLT4RrKwtHMV/0kHUWquWLFB0mcFafe7XjygENVyzPJBbiF+dZrA==",
+  "success": true,
+  "projectFilePath": "/Users/fp/Downloads/Intro/Intro.fsproj",
+  "expectedPackageFiles": [
+    "/Users/fp/.nuget/packages/fsharp.core/7.0.200/fsharp.core.7.0.200.nupkg.sha512"
+  ],
+  "logs": []
+}
