@@ -30,6 +30,7 @@ let e2 = Mul(CstI 2, (Sub( Var "v", Add(Var "w", Var "z"))))
 let e3 = Add(Add(Add(Var "x", Var "y"), Var("z")), Var "v")
 
 let rec fmt (e: aexpr) : string =
+  // format the expressions using sprintf
   match e with
   | CstI x -> sprintf "%i" x
   | Var x -> x
@@ -38,6 +39,7 @@ let rec fmt (e: aexpr) : string =
   | Mul(e1, e2) -> sprintf "(%s * %s)" (fmt e1) (fmt e2)
 
 let rec simplify (e: aexpr) : aexpr =
+  // simplify expressions by recursively simplifying expressions
   match e with
   | CstI x -> CstI x
   | Var x -> Var x
@@ -70,6 +72,8 @@ let wackExample = Mul(Add(CstI 1, CstI 0), (Add(Var "x", CstI 0)))
 
 
 let rec diff (Var(diffVariable) : aexpr) (e: aexpr) : aexpr =
+  // implement arithemetic different with respect to a single variable ´
+  // by using the rules defined in the provided document
   match e with
   | CstI _ -> CstI 0
   | Var x when x = diffVariable  -> CstI 1

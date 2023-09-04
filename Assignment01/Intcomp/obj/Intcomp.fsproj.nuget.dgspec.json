@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/fp/Downloads/Intcomp/Intcomp.fsproj": {}
+    "/Users/fp/school/PRD23/PSIV-assignments/Assignment01/Intcomp/Intcomp.fsproj": {}
   },
   "projects": {
-    "/Users/fp/Downloads/Intcomp/Intcomp.fsproj": {
+    "/Users/fp/school/PRD23/PSIV-assignments/Assignment01/Intcomp/Intcomp.fsproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/fp/Downloads/Intcomp/Intcomp.fsproj",
+        "projectUniqueName": "/Users/fp/school/PRD23/PSIV-assignments/Assignment01/Intcomp/Intcomp.fsproj",
         "projectName": "Intcomp",
-        "projectPath": "/Users/fp/Downloads/Intcomp/Intcomp.fsproj",
+        "projectPath": "/Users/fp/school/PRD23/PSIV-assignments/Assignment01/Intcomp/Intcomp.fsproj",
         "packagesPath": "/Users/fp/.nuget/packages/",
-        "outputPath": "/Users/fp/Downloads/Intcomp/obj/",
+        "outputPath": "/Users/fp/school/PRD23/PSIV-assignments/Assignment01/Intcomp/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/fp/.nuget/NuGet/NuGet.Config"

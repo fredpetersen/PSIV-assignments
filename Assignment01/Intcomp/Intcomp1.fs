@@ -36,11 +36,11 @@ let rec eval e (env : (string * int) list) : int =
     match e with
     | CstI i               -> i
     | Var x             -> lookup env x
-    | Let([], ebody)      -> eval ebody env
-    | Let((x, erhs)::lets, ebody) ->
-      let xval = eval erhs env
-      let env1 = (x, xval) :: env
-      eval (Let(lets,ebody)) env1
+    | Let([], ebody)      -> eval ebody env        // (* CHANGED TO ACCOMODATE SEQUENTIAL LET-BINDINGS *)
+    | Let((x, erhs)::lets, ebody) ->               // (* CHANGED TO ACCOMODATE SEQUENTIAL LET-BINDINGS *)
+      let xval = eval erhs env                      // (* CHANGED TO ACCOMODATE SEQUENTIAL LET-BINDINGS *)
+      let env1 = (x, xval) :: env   // (* CHANGED TO ACCOMODATE SEQUENTIAL LET-BINDINGS *)
+      eval (Let(lets,ebody)) env1                   // (* CHANGED TO ACCOMODATE SEQUENTIAL LET-BINDINGS *)
     | Prim("+", e1, e2) -> eval e1 env + eval e2 env
     | Prim("*", e1, e2) -> eval e1 env * eval e2 env
     | Prim("-", e1, e2) -> eval e1 env - eval e2 env
@@ -66,11 +66,11 @@ let rec closedin (e : expr) (vs : string list) : bool =
     match e with
     | CstI i -> true
     | Var x  -> List.exists (fun y -> x=y) vs
-    | Let([], ebody) ->
-      closedin ebody vs
-    | Let((x, erhs)::lets, ebody) ->
-      let vs1 = x :: vs
-      closedin erhs vs && closedin (Let(lets, ebody)) vs1
+    | Let([], ebody) ->       // (* CHANGED TO ACCOMODATE SEQUENTIAL LET-BINDINGS *)
+      closedin ebody vs             // (* CHANGED TO ACCOMODATE SEQUENTIAL LET-BINDINGS *)
+    | Let((x, erhs)::lets, ebody) ->    // (* CHANGED TO ACCOMODATE SEQUENTIAL LET-BINDINGS *)
+      let vs1 = x :: vs          // (* CHANGED TO ACCOMODATE SEQUENTIAL LET-BINDINGS *)
+      closedin erhs vs && closedin (Let(lets, ebody)) vs1 // (* CHANGED TO ACCOMODATE SEQUENTIAL LET-BINDINGS *)
     | Prim(ope, e1, e2) -> closedin e1 vs && closedin e2 vs;;
 
 (* An expression is closed if it is closed in the empty environment *)
@@ -198,10 +198,12 @@ let rec minus (xs, ys) =
 
 let rec freevars e : string list =
     match e with
-    | CstI i -> []
+    | CstI _ -> []
     | Var x  -> [x]
-    | Let([(x, erhs)], ebody) ->
-          union (freevars erhs, minus (freevars ebody, [x]))
+    | Let([], ebody) ->                   // (* CHANGED TO ACCOMODATE SEQUENTIAL LET-BINDINGS *)
+      freevars ebody                            // (* CHANGED TO ACCOMODATE SEQUENTIAL LET-BINDINGS *)
+    | Let((x, erhs)::list, ebody) ->     // (* CHANGED TO ACCOMODATE SEQUENTIAL LET-BINDINGS *)
+          union (freevars erhs, minus (freevars (Let(list, ebody)), [x])) // (* CHANGED TO ACCOMODATE SEQUENTIAL LET-BINDINGS *)
     | Prim(ope, e1, e2) -> union (freevars e1, freevars e2);;
 
 (* Alternative definition of closed *)
@@ -234,10 +236,12 @@ let rec tcomp (e : expr) (cenv : string list) : texpr =
     match e with
     | CstI i -> TCstI i
     | Var x  -> TVar (getindex cenv x)
-    | Let([(x, erhs)], ebody) ->
-      let cenv1 = x :: cenv
-      TLet(tcomp erhs cenv, tcomp ebody cenv1)
-    | Prim(ope, e1, e2) -> TPrim(ope, tcomp e1 cenv, tcomp e2 cenv);;
+    | Let([], ebody) ->   // (* CHANGED TO ACCOMODATE SEQUENTIAL LET-BINDINGS *)
+      tcomp ebody cenv // added matchcase for empty let-bindings list
+    | Let((x, erhs) :: lets, ebody) ->  // (* CHANGED TO ACCOMODATE SEQUENTIAL LET-BINDINGS *)
+      let cenv1 = x :: cenv // Evaluate recursively remaining let bindings
+      TLet(tcomp erhs cenv, tcomp (Let(lets, ebody)) cenv1)
+    | Prim(ope, e1, e2) -> TPrim(ope, tcomp e1 cenv, tcomp e2 cenv)
 
 (* Evaluation of target expressions with variable indexes.  The
    run-time environment renv is a list of variable values (ints).  *)

@@ -1,6 +1,5 @@
 ﻿using SimpleExpr;
 
-// See https://aka.ms/new-console-template for more information
 AExpr e = new Add(new CstI(17), new Var("z")); // 17+z = 17+3 = 20
 AExpr e1 = new Mul(new Mul(new CstI(0), new Var("z")), new Add(new CstI(1), new Var("x"))); // (0 * z) * (1 + x) = (0 * 3) * (1 + 5) = 0
 var env = new Dictionary<string, int>(){

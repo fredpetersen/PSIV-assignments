@@ -42,6 +42,7 @@ let e5 = Prim("+", Prim("*", Prim("max", CstI(3), CstI(4)), Prim("min", CstI(1),
 (* Evaluation within an environment *)
 
 let rec eval e (env : (string * int) list) : int =
+  // added match cases for the types
     match e with
     | CstI i              -> i
     | Var x               -> lookup env x
@@ -60,8 +61,11 @@ let rec earlyEval e (env : (string * int) list) : int =
     match e with
     | CstI i              -> i
     | Var x               -> lookup env x
+    // add case for the If expression
     | If (e1, e2, e3) -> if earlyEval e1 env <> 0 then earlyEval e2 env else earlyEval e3 env
     | Prim(ope, e1, e2)   ->
+      // we call this "early eval"
+      // because we evaluate the expressions of the Prim case before evaluting the operator
       let i1 = earlyEval e1 env
       let i2 = earlyEval e2 env
       match ope with

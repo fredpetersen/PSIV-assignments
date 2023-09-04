@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Nrbp70P4bVGTBgDodb5Ye1hmDq649Y/j/hj7+WOkap7N6b7ulyebJedraxHsVzZ0JTJSLypMraJVLltsNGGSJw==",
+  "dgSpecHash": "JQKM7Zxrrgs8Lb2b6xGMYC+RGJys5tHyQwMjx+LmpzemSTWqB3Eaq6OEm3hzV/tNctdJQbvxR1K7xSIIopWScg==",
   "success": true,
-  "projectFilePath": "/Users/fp/Downloads/Intcomp/Intcomp.fsproj",
+  "projectFilePath": "/Users/fp/school/PRD23/PSIV-assignments/Assignment01/Intcomp/Intcomp.fsproj",
   "expectedPackageFiles": [
     "/Users/fp/.nuget/packages/fsharp.core/7.0.200/fsharp.core.7.0.200.nupkg.sha512"
   ],
