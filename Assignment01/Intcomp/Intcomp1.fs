@@ -36,11 +36,11 @@ let rec eval e (env : (string * int) list) : int =
     match e with
     | CstI i               -> i
     | Var x             -> lookup env x
-    | Let([], ebody)      -> eval ebody env        // (* CHANGED TO ACCOMODATE SEQUENTIAL LET-BINDINGS *)
-    | Let((x, erhs)::lets, ebody) ->               // (* CHANGED TO ACCOMODATE SEQUENTIAL LET-BINDINGS *)
-      let xval = eval erhs env                      // (* CHANGED TO ACCOMODATE SEQUENTIAL LET-BINDINGS *)
-      let env1 = (x, xval) :: env   // (* CHANGED TO ACCOMODATE SEQUENTIAL LET-BINDINGS *)
-      eval (Let(lets,ebody)) env1                   // (* CHANGED TO ACCOMODATE SEQUENTIAL LET-BINDINGS *)
+    | Let([], ebody)      -> eval ebody env
+    | Let((x, erhs)::lets, ebody) ->
+      let xval = eval erhs env
+      let env1 = (x, xval) :: env
+      eval (Let(lets,ebody)) env1
     | Prim("+", e1, e2) -> eval e1 env + eval e2 env
     | Prim("*", e1, e2) -> eval e1 env * eval e2 env
     | Prim("-", e1, e2) -> eval e1 env - eval e2 env
@@ -66,11 +66,11 @@ let rec closedin (e : expr) (vs : string list) : bool =
     match e with
     | CstI i -> true
     | Var x  -> List.exists (fun y -> x=y) vs
-    | Let([], ebody) ->       // (* CHANGED TO ACCOMODATE SEQUENTIAL LET-BINDINGS *)
-      closedin ebody vs             // (* CHANGED TO ACCOMODATE SEQUENTIAL LET-BINDINGS *)
-    | Let((x, erhs)::lets, ebody) ->    // (* CHANGED TO ACCOMODATE SEQUENTIAL LET-BINDINGS *)
-      let vs1 = x :: vs          // (* CHANGED TO ACCOMODATE SEQUENTIAL LET-BINDINGS *)
-      closedin erhs vs && closedin (Let(lets, ebody)) vs1 // (* CHANGED TO ACCOMODATE SEQUENTIAL LET-BINDINGS *)
+    | Let([], ebody) ->
+      closedin ebody vs
+    | Let((x, erhs)::lets, ebody) ->
+      let vs1 = x :: vs
+      closedin erhs vs && closedin (Let(lets, ebody)) vs1
     | Prim(ope, e1, e2) -> closedin e1 vs && closedin e2 vs;;
 
 (* An expression is closed if it is closed in the empty environment *)
@@ -200,10 +200,10 @@ let rec freevars e : string list =
     match e with
     | CstI _ -> []
     | Var x  -> [x]
-    | Let([], ebody) ->                   // (* CHANGED TO ACCOMODATE SEQUENTIAL LET-BINDINGS *)
-      freevars ebody                            // (* CHANGED TO ACCOMODATE SEQUENTIAL LET-BINDINGS *)
-    | Let((x, erhs)::list, ebody) ->     // (* CHANGED TO ACCOMODATE SEQUENTIAL LET-BINDINGS *)
-          union (freevars erhs, minus (freevars (Let(list, ebody)), [x])) // (* CHANGED TO ACCOMODATE SEQUENTIAL LET-BINDINGS *)
+    | Let([], ebody) ->
+      freevars ebody
+    | Let((x, erhs)::list, ebody) ->
+          union (freevars erhs, minus (freevars (Let(list, ebody)), [x]))
     | Prim(ope, e1, e2) -> union (freevars e1, freevars e2);;
 
 (* Alternative definition of closed *)
@@ -236,9 +236,9 @@ let rec tcomp (e : expr) (cenv : string list) : texpr =
     match e with
     | CstI i -> TCstI i
     | Var x  -> TVar (getindex cenv x)
-    | Let([], ebody) ->   // (* CHANGED TO ACCOMODATE SEQUENTIAL LET-BINDINGS *)
+    | Let([], ebody) ->
       tcomp ebody cenv // added matchcase for empty let-bindings list
-    | Let((x, erhs) :: lets, ebody) ->  // (* CHANGED TO ACCOMODATE SEQUENTIAL LET-BINDINGS *)
+    | Let((x, erhs) :: lets, ebody) ->
       let cenv1 = x :: cenv // Evaluate recursively remaining let bindings
       TLet(tcomp erhs cenv, tcomp (Let(lets, ebody)) cenv1)
     | Prim(ope, e1, e2) -> TPrim(ope, tcomp e1 cenv, tcomp e2 cenv)
@@ -369,4 +369,36 @@ let intsToFile (inss : int list) (fname : string) =
     let text = String.concat " " (List.map string inss)
     System.IO.File.WriteAllText(fname, text);;
 
+(* ------------------------------------- *)
+(* HERE AND BELOW ADDED FOR ASSIGNMENT 2 *)
+(* ------------------------------------- *)
+let sinstrToInt (instr: sinstr) : int list =
+  match instr with
+  | SCstI i -> [0; i]
+  | SVar v -> [1; v]
+  | SAdd -> [2]
+  | SSub -> [3]
+  | SMul -> [4]
+  | SPop -> [5]
+  | SSwap -> [6]
+
 (* -----------------------------------------------------------------  *)
+
+// EXERCISE 2.4
+// Function to fold over a list of sinstrs and calling the sinstrToInt to return a list of ints instead
+let assemble (sinstr: sinstr list): int list =
+  List.fold (fun st v -> st @ (sinstrToInt v) ) [] sinstr
+
+
+
+// EXERCISE 3.2
+// (b+|ba|a)(b+a?)*
+
+(* BCD EXERCISES *)
+
+// EXERCISE 2.1
+// a) ^0*42$
+// b) ^0*([1-35-9]\d*|4[13-9]\d*|42\d+|0+|4)$
+// c) ^0*(4[3-9]|[5-9]\d+|[1-9]\d{2,})$
+
+
