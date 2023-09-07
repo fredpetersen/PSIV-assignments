@@ -389,16 +389,3 @@ let sinstrToInt (instr: sinstr) : int list =
 let assemble (sinstr: sinstr list): int list =
   List.fold (fun st v -> st @ (sinstrToInt v) ) [] sinstr
 
-
-
-// EXERCISE 3.2
-// (b+|ba|a)(b+a?)*
-
-(* BCD EXERCISES *)
-
-// EXERCISE 2.1
-// a) ^0*42$
-// b) ^0*([1-35-9]\d*|4[13-9]\d*|42\d+|0+|4)$
-// c) ^0*(4[3-9]|[5-9]\d+|[1-9]\d{2,})$
-
-
