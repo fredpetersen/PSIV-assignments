@@ -1,0 +1,18 @@
+4.2
+
+run (fromString "let sum x = if x < 1 then x else x + sum (x-1) in sum 1000 end");;
+run (fromString "let powerofthree x = if x = 0 then 1 else 3 * powerofthree(x-1) in powerofthree 8 end");;
+run (fromString "
+    let powerofthree x = if x = 0 then 1 else 3 * powerofthree(x-1) in
+      let sumofpowers x = if x = 0 then 1 else powerofthree(x) + sumofpowers(x-1) in
+        sumofpowers(11)
+      end
+    end
+  ");;
+run (fromString "
+    let toThePowerOfEight x = x*x*x*x*x*x*x*x in
+      let sumOfEightPowers x = if x = 1 then 1 else toThePowerOfEight(x) + sumOfEightPowers(x-1) in
+        sumOfEightPowers(10)
+      end
+    end
+  ");;
