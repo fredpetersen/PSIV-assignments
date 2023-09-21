@@ -9,5 +9,5 @@ type expr =
   | Let of string * expr * expr
   | Prim of string * expr * expr
   | If of expr * expr * expr
-  | Letfun of string * string list * expr * expr    (* CHANGED FOR ASSIGNMENT 4.3 *)
-  | Call of expr * expr list (* CHANGED FOR ASSIGNMENT 4.3 *)
+  | Letfun of string * string list * expr * expr    (* CHANGED FOR ASSIGNMENT 4 *)
+  | Call of expr * expr list (* CHANGED FOR ASSIGNMENT 4 *)
