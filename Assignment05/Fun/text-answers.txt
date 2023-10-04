@@ -22,4 +22,103 @@ As the function expects a total of 2 arguments, we cannot evaluate the function 
 Exercise 6.2
 Exercise 6.3
 Exercise 6.4
-Exercise 6.5
+Exercise 6.5 (1)
+inferType (fromString "let f x = 1 in f f end");;
+val it: string = "int"
+
+inferType (fromString "let f g = g g in f end");;
+System.Exception: type error: circularity
+
+We never know the value of g because g will endlessly infer the type g: t_x -> t_r
+
+inferType (fromString "let f x = let g y = y in g false end in f 42 end");;
+val it: string = "bool"
+
+inferType (fromString "
+  let f x =
+    let g y = if true then y else x
+    in g false end
+  in f 42 end
+");;
+System.Exception: type error: bool and int
+
+We know that g(y) is called with false thus y is a bool, whereas f(x) is called with 42 and thus is an int, such that we have a type error.
+We have an if/else statement that returns either x or y in the same function (g), meaning we have a function that either returns an in or a bool.
+
+inferType (fromString "
+  let f x =
+    let g y = if true then y else x
+    in g false end
+  in f true end
+");;
+val it: string = "bool"
+
+Exercise 6.5 (2)
+bool -> bool:
+inferType (fromString "
+  let f x = if x then false else true
+  in f end
+");;
+val it: string = "(bool -> bool)"
+
+int -> int:
+inferType (fromString "
+  let f x = x+1
+  in f end
+");;
+val it: string = "(int -> int)"
+
+int -> int -> int:
+inferType (fromString "
+  let f x =
+    let g y = x + y
+    in g end
+  in f end
+");;
+val it: string = "(int -> (int -> int))"
+
+’a -> ’b -> ’a:
+inferType (fromString "
+  let f x =
+    let g y = x
+    in g end
+  in f end
+");;
+val it: string = "('h -> ('g -> 'h))"
+
+’a -> ’b -> ’b:
+inferType (fromString "
+  let f x =
+    let g y = y
+    in g end
+  in f end
+");;
+val it: string = "('g -> ('h -> 'h))"
+
+
+// Guldborgs silly attempts :))
+(’a -> ’b) -> (’b -> ’c) -> (’a -> ’c):
+inferType (fromString "
+  let f ab =
+    let g bc =
+      let id x = x
+      in id end
+    in g f end
+  in f end
+");;
+
+’a -> ’b:
+inferType (fromString "
+  let f x =
+    let id y = x
+    in id end
+  in f end
+");;
+
+’a:
+inferType (fromString "
+  let x =
+    let y = x
+    in y end
+  in 0 end
+");;

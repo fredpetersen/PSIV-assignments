@@ -1,4 +1,4 @@
-# 1 "FunLex.fsl"
+# 1 "Fun/FunLex.fsl"
  
  (* File Fun/Funlex.fsl
     Lexer for a simple functional language (micro-ML)
@@ -243,4 +243,4 @@ and SkipComment  lexbuf =
           )
   | _ -> failwith "SkipComment"
 
-# 3000000 "FunLex.fs"
+# 3000000 "Fun\FunLex.fs"
