@@ -1,0 +1,25 @@
+(* CHANGED FOR ASSIGNMENT 5 *)
+Exercise 6.1
+After running the four programs we get the following:
+a: HigherFun.value = Int 7
+b: HigherFun.value = Int 7
+c: HigherFun.value = Int 7
+d: HigherFun.value =
+  Closure
+    ("f", "y", Prim ("+", Var "x", Var "y"),
+     [("x", Int 2);
+      ("add",
+       Closure
+         ("add", "x", Letfun ("f", "y", Prim ("+", Var "x", Var "y"), Var "f"),
+          []))])
+
+The third one is expected since, addtwo is a partially applied function, that we call we 5 such that add is called with 2 and 5 giving 7.
+Even though we define x later, this does not apply to the function as the declared env for the function hasn't changed
+
+The result of the last is a function in our abstract syntax that cannot be computed yet, as only one argument has been applied.
+As the function expects a total of 2 arguments, we cannot evaluate the function but instead we have a partially applied function.
+
+Exercise 6.2
+Exercise 6.3
+Exercise 6.4
+Exercise 6.5

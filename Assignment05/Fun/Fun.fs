@@ -1,5 +1,5 @@
 (* File Fun/Fun.fs
-   A strict functional language with integers and first-order 
+   A strict functional language with integers and first-order
    one-argument functions * sestoft@itu.dk
 
    Does not support mutually recursive function bindings.
@@ -16,25 +16,25 @@ open Absyn
 type 'v env = (string * 'v) list
 
 let rec lookup env x =
-    match env with 
+    match env with
     | []        -> failwith (x + " not found")
     | (y, v)::r -> if x=y then v else lookup r x;;
 
 (* A runtime value is an integer or a function closure *)
 
-type value = 
+type value =
   | Int of int
   | Closure of string * string * expr * value env       (* (f, x, fBody, fDeclEnv) *)
 
 let rec eval (e : expr) (env : value env) : int =
-    match e with 
+    match e with
     | CstI i -> i
     | CstB b -> if b then 1 else 0
     | Var x  ->
       match lookup env x with
-      | Int i -> i 
+      | Int i -> i
       | _     -> failwith "eval Var"
-    | Prim(ope, e1, e2) -> 
+    | Prim(ope, e1, e2) ->
       let i1 = eval e1 env
       let i2 = eval e2 env
       match ope with
@@ -44,18 +44,18 @@ let rec eval (e : expr) (env : value env) : int =
       | "=" -> if i1 = i2 then 1 else 0
       | "<" -> if i1 < i2 then 1 else 0
       | _   -> failwith ("unknown primitive " + ope)
-    | Let(x, eRhs, letBody) -> 
+    | Let(x, eRhs, letBody) ->
       let xVal = Int(eval eRhs env)
       let bodyEnv = (x, xVal) :: env
       eval letBody bodyEnv
-    | If(e1, e2, e3) -> 
+    | If(e1, e2, e3) ->
       let b = eval e1 env
       if b<>0 then eval e2 env
       else eval e3 env
-    | Letfun(f, x, fBody, letBody) -> 
-      let bodyEnv = (f, Closure(f, x, fBody, env)) :: env 
+    | Letfun(f, x, fBody, letBody) ->
+      let bodyEnv = (f, Closure(f, x, fBody, env)) :: env
       eval letBody bodyEnv
-    | Call(Var f, eArg) -> 
+    | Call(Var f, eArg) ->
       let fClosure = lookup env f
       match fClosure with
       | Closure (f, x, fBody, fDeclEnv) ->
@@ -71,7 +71,7 @@ let run e = eval e [];;
 
 (* Examples in abstract syntax *)
 
-let ex1 = Letfun("f1", "x", Prim("+", Var "x", CstI 1), 
+let ex1 = Letfun("f1", "x", Prim("+", Var "x", CstI 1),
                  Call(Var "f1", CstI 12));;
 
 (* Example: factorial *)
@@ -79,8 +79,8 @@ let ex1 = Letfun("f1", "x", Prim("+", Var "x", CstI 1),
 let ex2 = Letfun("fac", "x",
                  If(Prim("=", Var "x", CstI 0),
                     CstI 1,
-                    Prim("*", Var "x", 
-                              Call(Var "fac", 
+                    Prim("*", Var "x",
+                              Call(Var "fac",
                                    Prim("-", Var "x", CstI 1)))),
                  Call(Var "fac", Var "n"));;
 
@@ -88,12 +88,12 @@ let ex2 = Letfun("fac", "x",
 
 (* Example: deep recursion to check for constant-space tail recursion *)
 
-let ex3 = Letfun("deep", "x", 
+let ex3 = Letfun("deep", "x",
                  If(Prim("=", Var "x", CstI 0),
                     CstI 1,
                     Call(Var "deep", Prim("-", Var "x", CstI 1))),
                  Call(Var "deep", Var "count"));;
-    
+
 let rundeep n = eval ex3 [("count", Int n)];;
 
 (* Example: static scope (result 14) or dynamic scope (result 25) *)
@@ -105,7 +105,7 @@ let ex4 =
 
 (* Example: two function definitions: a comparison and Fibonacci *)
 
-let ex5 = 
+let ex5 =
     Letfun("ge2", "x", Prim("<", CstI 1, Var "x"),
            Letfun("fib", "n",
                   If(Call(Var "ge2", Var "n"),
@@ -113,4 +113,4 @@ let ex5 =
                           Call(Var "fib", Prim("-", Var "n", CstI 1)),
                           Call(Var "fib", Prim("-", Var "n", CstI 2))),
                      CstI 1), Call(Var "fib", CstI 25)));;
-                     
+

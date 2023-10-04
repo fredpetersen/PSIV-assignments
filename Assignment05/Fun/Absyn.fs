@@ -2,7 +2,7 @@
 
 module Absyn
 
-type expr = 
+type expr =
   | CstI of int
   | CstB of bool
   | Var of string
@@ -11,3 +11,4 @@ type expr =
   | If of expr * expr * expr
   | Letfun of string * string * expr * expr    (* (f, x, fBody, letBody) *)
   | Call of expr * expr
+  | Fun of string * expr
