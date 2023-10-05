@@ -1,4 +1,4 @@
-(* CHANGED FOR ASSIGNMENT 5 *)
+Search for this string to see changes: (* CHANGED FOR ASSIGNMENT 5 *)
 Exercise 6.1
 After running the four programs we get the following:
 a: HigherFun.value = Int 7
@@ -105,30 +105,35 @@ inferType (fromString "
 ");;
 val it: string = "('g -> ('h -> 'h))"
 
-
-// Guldborgs silly attempts :))
 (’a -> ’b) -> (’b -> ’c) -> (’a -> ’c):
 inferType (fromString "
   let f ab =
     let g bc =
-      let id x = x
+      let id x = bc (ab x)
       in id end
-    in g f end
+    in g end
   in f end
 ");;
+val it : string = "(('l -> 'k) -> (('k -> 'm) -> ('l -> 'm)))"
 
 ’a -> ’b:
 inferType (fromString "
+let t z =
   let f x =
-    let id y = x
-    in id end
-  in f end
+    let g y =
+      y
+    in f g end
+  in f f end
+in t end
 ");;
+val it : string = "('o -> 'p)"
 
 ’a:
 inferType (fromString "
-  let x =
-    let y = x
-    in y end
-  in 0 end
+  let f x =
+    let g y =
+      y
+    in f g end
+  in f f end
 ");;
+val it : string = "'i"
