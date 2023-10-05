@@ -22,6 +22,16 @@ As the function expects a total of 2 arguments, we cannot evaluate the function 
 Exercise 6.2
 Exercise 6.3
 Exercise 6.4
+(i)
+See ex_64i.jpg for a picture of the type rule tree.
+We cannot deduce `f` further than the type t_x->int, meaning that for all possible types of x, f will always return the type int.
+Thus x can take multiple forms making it polymorphic.
+
+(ii)
+See ex_64ii.jpg for a picture of the type rule tree.
+We can deduce that `x` must be an int based on our rule tree, and that `f` will always return an int value.
+Thus we have that `f` is not polymorphic but always int -> int.
+
 Exercise 6.5 (1)
 inferType (fromString "let f x = 1 in f f end");;
 val it: string = "int"
