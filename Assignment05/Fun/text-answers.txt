@@ -1,4 +1,11 @@
 Search for this string to see changes: (* CHANGED FOR ASSIGNMENT 5 *)
+Exercise 5.1
+(A): See List.fs
+(B): See List.cs
+
+Exercise 5.7
+See lines 136-139 in TypedFun.fs 
+
 Exercise 6.1
 After running the four programs we get the following:
 a: HigherFun.value = Int 7
@@ -20,7 +27,12 @@ The result of the last is a function in our abstract syntax that cannot be compu
 As the function expects a total of 2 arguments, we cannot evaluate the function but instead we have a partially applied function.
 
 Exercise 6.2
+See line 33 + 62-63 + 71-74 in HigherFun.fs
+
 Exercise 6.3
+See line 14 + 20 + 22 + 43 in FunPar.fsy
+See line 30 + 54 in FunLex.fsl
+
 Exercise 6.4
 (i)
 See ex_64i.jpg for a picture of the type rule tree.

@@ -13,14 +13,14 @@
 
 %token ELSE END FALSE IF IN LET NOT THEN TRUE FUN TO /* (* CHANGED FOR ASSIGNMENT 5 *) */
 %token PLUS MINUS TIMES DIV MOD
-%token EQ NE GT LT GE LE                             /* (* CHANGED FOR ASSIGNMENT 5 *) */
+%token EQ NE GT LT GE LE
 %token LPAR RPAR
 %token EOF
 
-%nonassoc FUN
-%left ELSE              /* lowest precedence  */
-%right TO
-%left EQ NE          /* (* CHANGED FOR ASSIGNMENT 5 *) */
+%nonassoc FUN           /* lowest precedence  */ /* (* CHANGED FOR ASSIGNMENT 5 *) */
+%left ELSE              
+%right TO               /* (* CHANGED FOR ASSIGNMENT 5 *) */
+%left EQ NE          
 %left GT LT GE LE
 %left PLUS MINUS
 %left TIMES DIV MOD
