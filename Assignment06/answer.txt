@@ -1,0 +1,60 @@
+# Exercise 7.1
+> fromFile "ex1.c";;
+val it: Absyn.program =
+  Prog
+    [Fundec                                                                     # Function Declaration
+       (None, "main", [(TypI, "n")],                                            # Type option (None) & Type (TypI)
+        Block                                                                   # Statement
+          [Stmt                                                                 # Declaration
+             (While                                                             # Statement
+                (Prim2 (">", Access (AccVar "n"), CstI 0),                      # Expressions (Prim2, Access, AccVar, CstI)
+                 Block                                                          # Statement
+                   [Stmt (Expr (Prim1 ("printi", Access (AccVar "n"))));        # Declaration (Stmt) of Statement (Expr) of Expressions (Prim1, Access, AccVar)
+                    Stmt                                                        # Declaration
+                      (Expr                                                     # Statement
+                         (Assign                                                # Expression
+                            (AccVar "n",                                        # Expression
+                             Prim2 ("-", Access (AccVar "n"), CstI 1))))]));    # Expressions (Prim2, Access, AccVar, CstI)
+           Stmt (Expr (Prim1 ("printc", CstI 10)))])]                           # Declaration (Stmt) of Statement (Expr) of Expression (CstI)
+
+> run (fromFile "ex1.c") [10];;
+10 9 8 7 6 5 4 3 2 1 
+val it: Interp.store = map [(0, 0)]
+
+> run (fromFile "ex11.c") [1];;
+1 
+val it: Interp.store =
+  map
+    [(0, 1); (1, 0); (2, 2); (3, -999); (4, 0); (5, -999); (6, -999);
+     (7, -999); (8, -999); ...]
+
+# Exercise 7.2
+## i 
+> run (fromFile "../exercise_7_2_i.c") [2];;
+20 
+val it: Interp.store =
+  map
+    [(0, 2); (1, 20); (2, 7); (3, 13); (4, 9); (5, 8); (6, 2); (7, 2); (8, 2);
+     ...]
+
+## ii
+> run (fromFile "../exercise_7_2_ii.c") [3];;
+5 
+val it: Interp.store =
+  map
+    [(0, 3); (1, 0); (2, 1); (3, 4); (4, -999); (5, -999); (6, -999);
+     (7, -999); (8, -999); ...]
+
+## iii
+> run (fromFile "..\exercise_7_2_iii.c") [4];;
+1 4 2 0 
+val it: Interp.store =
+  map
+    [(0, 4); (1, 1); (2, 2); (3, 1); (4, 1); (5, 1); (6, 2); (7, 0); (8, 1);
+     ...]
+
+# Exercise 7.3
+
+
+# Exercise 7.4
+# Exercise 7.5
