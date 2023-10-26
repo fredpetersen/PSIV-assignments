@@ -6,7 +6,7 @@ void main(int n) {
   arr[1] = 13;
   arr[2] = 9;
   arr[3] = 8;
-  arrsum(n, arr, &sump);
+  arrsumfor(n, arr, &sump);
   print sump;
   println;
 }
@@ -18,4 +18,11 @@ void arrsum(int n, int arr[], int *sump) {
       *sump = *sump + arr[i];
       i = i + 1;
     }
+}
+
+void arrsumfor(int n, int arr[], int *sump) {
+  int i;
+  for(i = 0; i<n; i = i+1) {
+    *sump = *sump + arr[i];
+  }
 }

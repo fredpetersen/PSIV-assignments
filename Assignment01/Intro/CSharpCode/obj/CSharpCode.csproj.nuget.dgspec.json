@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/fp/Downloads/Intro/CSharpCode/CSharpCode.csproj": {}
+    "/Users/fp/school/PRD23/PSIV-assignments/Assignment01/Intro/CSharpCode/CSharpCode.csproj": {}
   },
   "projects": {
-    "/Users/fp/Downloads/Intro/CSharpCode/CSharpCode.csproj": {
+    "/Users/fp/school/PRD23/PSIV-assignments/Assignment01/Intro/CSharpCode/CSharpCode.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/fp/Downloads/Intro/CSharpCode/CSharpCode.csproj",
+        "projectUniqueName": "/Users/fp/school/PRD23/PSIV-assignments/Assignment01/Intro/CSharpCode/CSharpCode.csproj",
         "projectName": "CSharpCode",
-        "projectPath": "/Users/fp/Downloads/Intro/CSharpCode/CSharpCode.csproj",
+        "projectPath": "/Users/fp/school/PRD23/PSIV-assignments/Assignment01/Intro/CSharpCode/CSharpCode.csproj",
         "packagesPath": "/Users/fp/.nuget/packages/",
-        "outputPath": "/Users/fp/Downloads/Intro/CSharpCode/obj/",
+        "outputPath": "/Users/fp/school/PRD23/PSIV-assignments/Assignment01/Intro/CSharpCode/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/fp/.nuget/NuGet/NuGet.Config"

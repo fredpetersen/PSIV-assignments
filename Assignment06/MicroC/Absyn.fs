@@ -12,8 +12,8 @@ type typ =
   | TypC                             (* Type char                   *)
   | TypA of typ * int option         (* Array type                  *)
   | TypP of typ                      (* Pointer type                *)
-                                                                   
-and expr =                                                         
+
+and expr =
   | Access of access                 (* x    or  *p    or  a[e]     *)
   | Assign of access * expr          (* x=e  or  *p=e  or  a[e]=e   *)
   | Addr of access                   (* &x   or  &*p   or  &a[e]    *)
@@ -23,26 +23,28 @@ and expr =
   | Andalso of expr * expr           (* Sequential and              *)
   | Orelse of expr * expr            (* Sequential or               *)
   | Call of string * expr list       (* Function call f(...)        *)
-                                                                   
-and access =                                                       
-  | AccVar of string                 (* Variable access        x    *) 
+  | PreInc of access                 (* CHANGED FOR ASSIGNMENT 6    *)
+  | PreDec of access                 (* CHANGED FOR ASSIGNMENT 6    *)
+
+and access =
+  | AccVar of string                 (* Variable access        x    *)
   | AccDeref of expr                 (* Pointer dereferencing  *p   *)
   | AccIndex of access * expr        (* Array indexing         a[e] *)
-                                                                   
-and stmt =                                                         
+
+and stmt =
   | If of expr * stmt * stmt         (* Conditional                 *)
   | While of expr * stmt             (* While loop                  *)
   | Expr of expr                     (* Expression statement   e;   *)
   | Return of expr option            (* Return from method          *)
   | Block of stmtordec list          (* Block: grouping and scope   *)
-                                                                   
-and stmtordec =                                                    
+
+and stmtordec =
   | Dec of typ * string              (* Local variable declaration  *)
   | Stmt of stmt                     (* A statement                 *)
 
-and topdec = 
+and topdec =
   | Fundec of typ option * string * (typ * string) list * stmt
   | Vardec of typ * string
 
-and program = 
+and program =
   | Prog of topdec list

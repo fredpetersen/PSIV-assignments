@@ -18,20 +18,20 @@ val it: Absyn.program =
            Stmt (Expr (Prim1 ("printc", CstI 10)))])]                           # Declaration (Stmt) of Statement (Expr) of Expression (CstI)
 
 > run (fromFile "ex1.c") [10];;
-10 9 8 7 6 5 4 3 2 1 
+10 9 8 7 6 5 4 3 2 1
 val it: Interp.store = map [(0, 0)]
 
 > run (fromFile "ex11.c") [1];;
-1 
+1
 val it: Interp.store =
   map
     [(0, 1); (1, 0); (2, 2); (3, -999); (4, 0); (5, -999); (6, -999);
      (7, -999); (8, -999); ...]
 
 # Exercise 7.2
-## i 
+## i
 > run (fromFile "../exercise_7_2_i.c") [2];;
-20 
+20
 val it: Interp.store =
   map
     [(0, 2); (1, 20); (2, 7); (3, 13); (4, 9); (5, 8); (6, 2); (7, 2); (8, 2);
@@ -39,7 +39,7 @@ val it: Interp.store =
 
 ## ii
 > run (fromFile "../exercise_7_2_ii.c") [3];;
-5 
+5
 val it: Interp.store =
   map
     [(0, 3); (1, 0); (2, 1); (3, 4); (4, -999); (5, -999); (6, -999);
@@ -47,7 +47,7 @@ val it: Interp.store =
 
 ## iii
 > run (fromFile "..\exercise_7_2_iii.c") [4];;
-1 4 2 0 
+1 4 2 0
 val it: Interp.store =
   map
     [(0, 4); (1, 1); (2, 2); (3, 1); (4, 1); (5, 1); (6, 2); (7, 0); (8, 1);
@@ -55,6 +55,19 @@ val it: Interp.store =
 
 # Exercise 7.3
 
+Changes in CPar.fsy lines 17 and 103
+See exercise_7_2_*.c files for the rewrites of our programs to use for-loops.
+The methods have been duplicated such that there is also an equivalent method extended with "forloop".
 
 # Exercise 7.4
+
+Changes in Absyn.fs lines 26-27
+Changes in Interp.fs lines 197-202
+
 # Exercise 7.5
+Changes in CPar.fsy lines 137-138
+See exercise_7_5.c for example, running it gives the following:
+> run (fromFile "../exercise_7_5.c") [4];;
+5 8
+4 11
+val it : Interp.store = map [(0, 4); (1, 11)]
