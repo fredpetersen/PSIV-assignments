@@ -24,12 +24,12 @@
 
 class QueueWithMistake {
   public static void main(String[] args) {
-    for (int threads=1; threads<20; threads++) 
+    for (int threads=1; threads<20; threads++)
       runThreads(threads, new SentinelLockQueue());
   }
 
   private static void runThreads(final int threads, final Queue queue) {
-    final int iterations = 200000000; // Increase this constant if program does not run out of memory.
+    final int iterations = 2000000000; // Increase this constant if program does not run out of memory.
     final Timer timer = new Timer();
     Thread[] ts = new Thread[threads];
     queue.put(-6);
@@ -55,7 +55,7 @@ class QueueWithMistake {
     } catch (Exception exn) {
       System.out.println(exn);
     }
-    System.out.printf("%-20s\t%4d\t%7.2f\t%s%n", 
+    System.out.printf("%-20s\t%4d\t%7.2f\t%s%n",
                       queue.getClass().getName(), threads, timer.Check(), queue.get());
   }
 }
@@ -68,18 +68,18 @@ interface Queue {
 // --------------------------------------------------
 // Locking queue, with sentinel (dummy) node
 
-class SentinelLockQueue implements Queue {  
+class SentinelLockQueue implements Queue {
   // With sentinel (dummy) node.
   // Invariants:
   //  * The node referred by tail is reachable from head.
-  //  * If non-empty then head != tail, 
+  //  * If non-empty then head != tail,
   //     and tail points to last item, and head.next to first item.
   //  * If empty then head == tail.
 
   private static class Node {
     final int item;
     volatile Node next;
-    
+
     public Node(int item, Node next) {
       this.item = item;
       this.next = next;
@@ -88,7 +88,7 @@ class SentinelLockQueue implements Queue {
 
   private final Node dummy = new Node(-444, null);
   private Node head = dummy, tail = dummy;
-  
+
   public synchronized boolean put(int item) {
     Node node = new Node(item, null);
     tail.next = node;
@@ -96,17 +96,20 @@ class SentinelLockQueue implements Queue {
     return true;
   }
 
+
+  /* Before old nodes were never cleaned, as they were still being referenced by first.
+   * This could be fixed in the way we did below - or by clearing first.next after use
+   */
   public synchronized int get() {
-    if (head.next == null) 
+    if (head.next == null)
       return -999;
-    Node first = head;
-    head = first.next;
+    head = head.next;        // CHANGED FOR ASSIGNMENT 8 - EXERCISE 9.3
     return head.item;
   }
 }
 
 // Crude timing utility ----------------------------------------
-   
+
 class Timer {
   private long start, spent = 0;
   public Timer() { Play(); }
